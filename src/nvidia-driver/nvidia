@@ -1,49 +1,116 @@
-#! /bin/sh
+#!/bin/bash
 #
-# $Id: nvidia,v 1.1 2011/10/12 21:59:59 nadya Exp $
+# Startup/shutdown script for nVidia CUDA
 #
-# chkconfig: 345 01 01
-# description: Load NVIDIA driver
-#
-# @Copyright@
-# @Copyright@
-#
-# $Log: nvidia,v $
-# Revision 1.1  2011/10/12 21:59:59  nadya
-# initial, based on hg-rocks5.3 cuda roll.
-#
+# chkconfig: 345 80 20
+# description: Startup/shutdown script for nVidia CUDA
 
+# Source function library.
 . /etc/init.d/functions
 
+DRIVER=nvidia
+RETVAL=0
+
+# Create /dev nodes for nvidia devices
+function createnodes() {
+   # Count the number of found NVIDIA controllers 
+   N3D=`/sbin/lspci | grep -i NVIDIA | grep "3D controller" | wc -l`
+   NVGA=`/sbin/lspci | grep -i NVIDIA | grep "VGA compatible controller" | wc -l`
+
+   N=`expr $N3D + $NVGA - 1`
+   for i in `seq 0 $N`; do
+       mknod -m 666 /dev/nvidia$i c 195 $i
+       RETVAL=$?
+       [ "$RETVAL" = 0 ] || exit $RETVAL
+   done
+
+   mknod -m 666 /dev/nvidiactl c 195 255
+   RETVAL=$?
+   [ "$RETVAL" = 0 ] || exit $RETVAL
+}
+
+# Remove /dev nodes for nvidia devices
+function removenodes() {
+   rm -f /dev/nvidia*
+}
+
+# set GPU exclusive process access on all gpus
+function setgpuaccess() {
+   /usr/bin/nvidia-smi -c 3
+   RETVAL=$?
+   [ "$RETVAL" = 0 ] || exit $RETVAL
+}
+
+# set persistence mode to enabled on all gpus
+function setgpumode() {
+   /usr/bin/nvidia-smi -pm 1
+   RETVAL=$?
+   [ "$RETVAL" = 0 ] || exit $RETVAL
+}
+
+# Start daemon
+function start() {
+   echo -n $"Unloading nouveau kernel module: "
+   /sbin/modprobe -r nouveau && success || failure
+   RETVAL=$?
+   echo
+   [ "$RETVAL" = 0 ] || exit $RETVAL
+
+   echo -n $"Loading $DRIVER kernel module: "
+   /sbin/modprobe $DRIVER && success || failure
+   RETVAL=$?
+   echo
+   [ "$RETVAL" = 0 ] || exit $RETVAL
+
+   echo -n $"Initializing CUDA /dev entries: "
+   createnodes && success || failure
+   RETVAL=$?
+   echo
+   [ "$RETVAL" = 0 ] || exit $RETVAL
+
+   echo -n $"Setting exclusive process access on all GPUs: "
+   setgpuaccess && success || failure
+   RETVAL=$?
+   echo
+   [ "$RETVAL" = 0 ] || exit $RETVAL
+
+   echo -n $"Setting persistence mode on all GPUs: "
+   setgpumode && success || failure
+   RETVAL=$?
+   echo
+   [ "$RETVAL" = 0 ] || exit $RETVAL
+
+}
+
+# Stop daemon
+function stop() {
+   echo -n $"Unloading $DRIVER kernel module: "
+   rmmod -f $DRIVER && success || failure
+   RETVAL=$?
+   echo
+   [ "$RETVAL" = 0 ] || exit $RETVAL
+
+   echo -n $"Removing CUDA /dev entries: "
+   removenodes && success || failure
+   RETVAL=$?
+   echo
+   [ "$RETVAL" = 0 ] || exit $RETVAL
+}
+
+# See how we were called
 case "$1" in
-    start)
-	# disable nouveau driver if it was loaded by X
-	/sbin/modprobe -r nouveau
-        action $"Loading NVIDIA driver:" /opt/cuda/driver/load-driver
-	if [ "$?" -ne "0" ]; then
-	  # Try installing the driver if the load failed
-	  action $"Installing NVIDIA driver..." /opt/cuda/driver/install-driver
-	  action $"Loading NVIDIA driver:" /opt/cuda/driver/load-driver
-        fi
-        RETVAL=$?
-        if [ $RETVAL -eq 0 ] && [ -f /usr/bin/nvidia-smi ]; then
-            # set exclusive process access on all gpus
-            /usr/bin/nvidia-smi -c 3
-            # set persistence mode to enabled on all gpus
-            /usr/bin/nvidia-smi -pm 1
-        fi
-
-        ;;
-    stop)
-        ;;
-    restart)
-        $0 stop
-        $0 start
-        RETVAL=$?
-        ;;
-    *)
-        echo "Usage: $0 {start|stop|restart}"
-        exit 1
+   start)
+       start
+      ;;
+   stop)
+       stop
+      ;;
+   restart)
+       stop
+       start
+      ;;
+   *)
+       echo $"Usage: $0 {start|stop|restart}"
+       RETVAL=1
 esac
-
 exit $RETVAL
