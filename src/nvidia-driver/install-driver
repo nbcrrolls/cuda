@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# default log file
+LOG=/var/log/nvidia-installer.log
+
+# device driver installer
+DRIVER=/opt/cuda/driver/nvidia-devdriver.run
+
+# instructs the installer to not attempt to access the network.
+OPT="--no-network -s"
+
+# instruct installer not to install the kernel module, and do not remove any existing kernel modules. 
+KERNOPT="--no-kernel-module"
+
+# check for nvidia devices, if present reset KERNOPT to include installing kernel module
+NVIDIAHW=`/sbin/lspci -d 10de: | wc -l`
+if [ $NVIDIAHW -gt 0 ] ; then
+    KERNOPT=
+fi
+
+echo "Installing driver with: $DRIVER $OPT $KERNOPT"
+
+$DRIVER $OPT $KERNOPT 
+
+echo "See installation details in $LOG"

@@ -1,0 +1,39 @@
+<?xml version="1.0" standalone="no"?>
+
+<kickstart>
+
+	<description>
+	Install the NVIDIA driver and CUDA toolkit.
+	</description>
+
+	<copyright>
+	Initial file from :
+	Copyright (c) 2006 - 2010 Clustercorp Inc.
+	All rights reserved. www.clustercorp.com
+	Copyright (c) 2000 - 2014 The Regents of the University of California.
+	All rights reserved. Rocks(r) 6.2 www.rocksclusters.org
+	</copyright>
+
+	<changelog>
+	</changelog>
+
+	<package>nvidia-driver</package>
+	<package>nvidia-cuda</package>
+
+	<package>mesa-libGLU</package>
+	<package>freeglut</package>
+	<package>freeglut-devel</package>
+
+<post>
+
+<file name="/etc/modprobe.d/disable-nouveau.conf" perms="644">
+# Prevent Nouveau from loading and performing a kernel modeset
+# Needed for installing CUDA drivers
+blacklist nouveau
+options nouveau modeset=0
+</file>
+
+/sbin/chkconfig --add  nvidia 
+</post>
+
+</kickstart>

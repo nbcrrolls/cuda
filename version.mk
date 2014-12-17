@@ -1,0 +1,5 @@
+ROLLNAME	= cuda
+RELEASE		= 0
+COLOR		= RosyBrown
+
+REDHAT.ROOT	= $(PWD)

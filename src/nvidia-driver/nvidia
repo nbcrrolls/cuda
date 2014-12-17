@@ -1,0 +1,49 @@
+#! /bin/sh
+#
+# $Id: nvidia,v 1.1 2011/10/12 21:59:59 nadya Exp $
+#
+# chkconfig: 345 01 01
+# description: Load NVIDIA driver
+#
+# @Copyright@
+# @Copyright@
+#
+# $Log: nvidia,v $
+# Revision 1.1  2011/10/12 21:59:59  nadya
+# initial, based on hg-rocks5.3 cuda roll.
+#
+
+. /etc/init.d/functions
+
+case "$1" in
+    start)
+	# disable nouveau driver if it was loaded by X
+	/sbin/modprobe -r nouveau
+        action $"Loading NVIDIA driver:" /opt/cuda/driver/load-driver
+	if [ "$?" -ne "0" ]; then
+	  # Try installing the driver if the load failed
+	  action $"Installing NVIDIA driver..." /opt/cuda/driver/install-driver
+	  action $"Loading NVIDIA driver:" /opt/cuda/driver/load-driver
+        fi
+        RETVAL=$?
+        if [ $RETVAL -eq 0 ] && [ -f /usr/bin/nvidia-smi ]; then
+            # set exclusive process access on all gpus
+            /usr/bin/nvidia-smi -c 3
+            # set persistence mode to enabled on all gpus
+            /usr/bin/nvidia-smi -pm 1
+        fi
+
+        ;;
+    stop)
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        RETVAL=$?
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+
+exit $RETVAL

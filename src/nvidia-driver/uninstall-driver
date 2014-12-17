@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# default log file
+LOG=/var/log/nvidia-installer.log
+
+# device driver installer
+DRIVER=/opt/cuda/driver/nvidia-devdriver.run
+
+# instructs the installer to uninstall current driver
+OPT="--uninstall -s"
+
+echo "Uninstalling driver with: $DRIVER $OPT $KERNOPT"
+$DRIVER $OPT 
+
+echo "See uninstall details in $LOG"
+

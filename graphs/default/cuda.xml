@@ -1,0 +1,29 @@
+<?xml version="1.0" standalone="no"?>
+
+<graph>
+
+	<description>
+	CUDA roll contains NVIDIA driver and CUDA toolkit .
+	</description>
+
+	<changelog>
+	</changelog>
+
+	<copyright>
+	Copyright (c) 2000 - 2014 The Regents of the University of California.
+	All rights reserved. Rocks(r) 6.2 www.rocksclusters.org
+	</copyright>
+
+	<edge from="server">
+		<to>cuda-server</to>
+	</edge>
+
+	<edge from="login">
+		<to>cuda-server</to>
+	</edge>
+
+	<edge from="client" cond="cuda">
+		<to>cuda-client</to>
+	</edge>
+
+</graph>
