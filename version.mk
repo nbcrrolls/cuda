@@ -1,5 +1,5 @@
 ROLLNAME	= cuda
 RELEASE		= 0
-COLOR		= RosyBrown
+COLOR		= LightBlue
 
 REDHAT.ROOT	= $(PWD)
