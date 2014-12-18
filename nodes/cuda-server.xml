@@ -3,10 +3,10 @@
 <kickstart>
 
 	<description>
-	Install the NVIDIA driver and CUDA toolkit.
+	Install the NVIDIA driver and CUDA toolkit on frontend or login node.
 	</description>
 
-        <copyright>
+	<copyright>
 	Initial file from :
 	Copyright (c) 2006 - 2010 Clustercorp Inc.
 	All rights reserved. www.clustercorp.com
@@ -21,11 +21,15 @@
 	<package>cuda-toolkit-lib64</package>
 	<package>cuda-toolkit-base</package>
 	<package>cuda-toolkit-samples</package>
-
+	<package>mesa-libGLU</package>
 	<package>freeglut</package>
 	<package>freeglut-devel</package>
 
 <post>
+if [ -e /var/www/html/cuda ] ; then
+   rm -rf /var/www/html/cuda
+fi
+ln -s /opt/cuda/doc/html /var/www/html/cuda
 </post>
 
 </kickstart>
