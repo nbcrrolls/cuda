@@ -1,7 +1,5 @@
-NAME = nvidia-driver
-RELEASE = 0
-
-DRIVER_NAME    = NVIDIA-Linux-x86_64
-DRIVER_VERSION = 340.32
-NVIDIA_DRIVER  = $(DRIVER_NAME)-$(DRIVER_VERSION).run
+NAME             = cuda-nvidia-driver
+VERSION          = 340.32
+RELEASE          = 0
+DRIVER_INSTALLER = NVIDIA-Linux-x86_64-$(VERSION).run
 

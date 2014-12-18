@@ -71,12 +71,11 @@ build:
 install:: 
 	mkdir -p $(ROOT)/$(PKGROOT)
 	mkdir -p $(ROOT)/etc/rc.d/init.d
-	install $(NVIDIA_DRIVER)	$(ROOT)/$(PKGROOT)/
+	install $(DRIVER_INSTALLER)	$(ROOT)/$(PKGROOT)/
 	install -m755 install-driver    $(ROOT)/$(PKGROOT)/
-	install -m755 load-driver       $(ROOT)/$(PKGROOT)/
 	install -m755 uninstall-driver  $(ROOT)/$(PKGROOT)/
 	install -m755 nvidia		$(ROOT)/etc/rc.d/init.d/
-	( cd $(ROOT)/$(PKGROOT); ln -s $(NVIDIA_DRIVER) nvidia-devdriver.run; )
+	( cd $(ROOT)/$(PKGROOT); ln -s $(DRIVER_INSTALLER) nvidia-devdriver.run; )
 
 clean::
 
