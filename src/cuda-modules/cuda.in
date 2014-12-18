@@ -8,10 +8,12 @@ proc ModulesHelp { } {
 	global cudaversion 
 
 	puts stderr "\tUse NVIDIA CUDA tools from /opt/cuda"
-	puts stderr "\tNVIDIA CUDA Toolkit Version $cudaversion\n"
+	puts stderr "\tNVIDIA CUDA Toolkit Version $cudaversion"
+	puts stderr "\tNVIDIA Driver Version @VERSION_DRIVER@\n"
 }
 
-module-whatis	"NVIDIA Cuda toolkit version @VERSION@"
+module-whatis	"NVIDIA Cuda Toolkit Version @VERSION@"
+module-whatis	"NVIDIA Driver Version @VERSION_DRIVER@"
 
 # for Tcl script use only
 set	cudaversion @VERSION@
