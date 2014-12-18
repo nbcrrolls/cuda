@@ -1,0 +1,10 @@
+NAME = cuda-toolkit
+VERSION    = 6.5.14
+RELEASE = 0
+
+DISTDIR = distro
+
+TOOLKIT_ARCH   = linux_64
+TOOLKIT_SUFFIX = run
+TOOLKIT_DISTRO = cuda_$(VERSION)_$(TOOLKIT_ARCH).$(TOOLKIT_SUFFIX)
+
