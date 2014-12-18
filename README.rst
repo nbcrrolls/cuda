@@ -9,17 +9,16 @@ CUDA  Roll
 Introduction
 ---------------
 This roll installs NVIDIA CUDA Toolkit and NVIDIA Driver. 
-
-For more information about the NVIDIA CUDA  Toolkit please visit the official
-`NVIDIA developer web site <http://developer.nvidia.com>`_
+For more information about the NVIDIA CUDA Toolkit please see the official
+`NVIDIA developer website <http://developer.nvidia.com>`_
 
 Requirements
 -------------
 
-To build/install this roll you need to download cuda toolkit and driver soruce files (run)
-from NVIDIA website.  The toolkit distro is about 1Gb. 
+To build/install this roll you need to download cuda toolkit and driver source files ``*.run``.
+from NVIDIA website and plase them in respective directories in src/.  The toolkit distro is ~1Gb. 
 
-Have enough space (~ 1.5GB) in / when building the roll.
+Must have enough space (~ 1.5GB) in / when building the roll.
 
 Building
 -------------
@@ -32,10 +31,6 @@ A successful build will create 2 ``cuda-*.disk*.iso`` files.
 
 Installing
 ------------
-
-The roll installs on login (or frontend) and on compte nodes that have GPU. 
-On frontend/login nodes the driver (not loaded) and all of toolkit are installed. 
-On compute nodes the driver and most of toolkit (minus samples) are installed. 
 
 To add this roll to existing cluster, execute these instructions on a Rocks frontend node: ::
 
@@ -73,11 +68,11 @@ What is installed
 The following is installed with cuda roll: ::
 
     /opt/cuda/driver - NVIDIA driver
-    /etc/init.d/nvidia  - nvidia startup/shutdown script (disabled on frontend/login)
+    /etc/init.d/nvidia  - nvidia startup/shutdown script (disabled on login node)
     /opt/cuda   - toolkit (without samples on compute nodes)
-    /opt/modules/applications/cuda - modle environment
+    /opt/modules/applications/cuda - module environment
 
-On loginfrontend nodes: ::
+On login nodes: ::
 
     /opt/cuda/samples  - code samples
     /var/www/html/cuda - link to cuda html documentation
@@ -86,9 +81,9 @@ On loginfrontend nodes: ::
 Testing
 ----------
 
-The tests commadns are run on GPU-enabled nodes. 
+The tests commands are run on GPU-enabled nodes. 
 
-To find information about isntalled GPU card execute: ::
+To find information about installed GPU card execute: ::
 
     nvidia-smi
 
