@@ -25,5 +25,9 @@
 	<edge from="client" cond="cuda">
 		<to>cuda-client</to>
 	</edge>
+	<order head="client">
+		<tail>cuda-client</tail>
+	</order>
+
 
 </graph>
