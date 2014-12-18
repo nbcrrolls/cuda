@@ -17,8 +17,11 @@
 	<changelog>
 	</changelog>
 
-	<package>nvidia-driver</package>
-	<package>nvidia-cuda</package>
+	<package>cuda-nvidia-driver</package>
+	<package>cuda-toolkit-lib64</package>
+	<package>cuda-toolkit-base</package>
+	<package>cuda-toolkit-samples</package>
+
 	<package>freeglut</package>
 	<package>freeglut-devel</package>
 
