@@ -9,7 +9,28 @@
 . /etc/init.d/functions
 
 DRIVER=nvidia
+DRIVERUVM=nvidia_uvm
 RETVAL=0
+
+# Install driver if needed then load 
+
+function loaddriver() {
+   /sbin/modprobe $DRIVER && success || failure
+   RETVAL=$?
+
+   if [ "$RETVAL" -ne 0 ] ; then
+      echo -n $"Installing $DRIVER driver: "
+      /opt/cuda/driver/install-driver
+      RETVAL=$?
+      echo
+      [ "$RETVAL" = 0 ] || exit $RETVAL
+      /sbin/modprobe $DRIVER && success || failure
+      RETVAL=$?
+   fi
+
+   echo
+   [ "$RETVAL" = 0 ] || exit $RETVAL
+}
 
 # Create /dev nodes for nvidia devices
 function createnodes() {
@@ -57,7 +78,7 @@ function start() {
    [ "$RETVAL" = 0 ] || exit $RETVAL
 
    echo -n $"Loading $DRIVER kernel module: "
-   /sbin/modprobe $DRIVER && success || failure
+   loaddriver && success || failure
    RETVAL=$?
    echo
    [ "$RETVAL" = 0 ] || exit $RETVAL
@@ -84,6 +105,18 @@ function start() {
 
 # Stop daemon
 function stop() {
+   lsmod | grep $DRIVERUVM 2>&1 > /dev/null
+   RETVAL=$?
+   if [ "$RETVAL" = 0 ] ; then
+       echo -n $"Unloading $DRIVERUVM kernel module: "
+       rmmod -f $DRIVERUVM && success || failure
+       RETVAL=$?
+   else
+       RETVAL=0
+   fi
+   echo
+   [ "$RETVAL" = 0 ] || exit $RETVAL
+
    echo -n $"Unloading $DRIVER kernel module: "
    rmmod -f $DRIVER && success || failure
    RETVAL=$?
