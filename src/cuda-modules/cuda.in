@@ -1,0 +1,23 @@
+#%Module1.0
+##
+## cuda modulefile
+##
+## modulefiles/
+##
+proc ModulesHelp { } {
+	global cudaversion 
+
+	puts stderr "\tUse NVIDIA CUDA tools from /opt/cuda"
+	puts stderr "\tNVIDIA CUDA Toolkit Version $cudaversion\n"
+}
+
+module-whatis	"NVIDIA Cuda toolkit version @VERSION@"
+
+# for Tcl script use only
+set	cudaversion @VERSION@
+
+set cudaHome /opt/cuda
+prepend-path	PATH $cudaHome/bin	
+prepend-path	LD_LIBRARY_PATH $cudaHome/lib64
+prepend-path	MANPATH $cudaHome/doc/man
+
