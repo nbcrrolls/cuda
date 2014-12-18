@@ -3,7 +3,7 @@
 <kickstart>
 
 	<description>
-	Install the NVIDIA driver and CUDA toolkit.
+	Install the NVIDIA driver and CUDA toolkit on gpu-enabled compute node.
 	</description>
 
 	<copyright>
@@ -20,7 +20,6 @@
 	<package>cuda-nvidia-driver</package>
 	<package>cuda-toolkit-lib64</package>
 	<package>cuda-toolkit-base</package>
-
 	<package>mesa-libGLU</package>
 	<package>freeglut</package>
 	<package>freeglut-devel</package>
