@@ -86,7 +86,7 @@ build: $(MODULESFILES)
 
 install:: $(MODULESFILES)
 	mkdir -p $(ROOT)/$(PKGROOT)
-	install -m 755 $(MODULESFILES) $(ROOT)/$(PKGROOT)
+	install -m 644 $(MODULESFILES) $(ROOT)/$(PKGROOT)
 
 clean::
 	rm -rf $(NAME).spec.in
