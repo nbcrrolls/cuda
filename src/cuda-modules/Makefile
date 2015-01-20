@@ -63,7 +63,7 @@ RPM.PREFIX = $(PKGROOT)
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
-MODULESFILES = cuda
+MODULESFILES = $(CUDANAME).module $(CUDANAME).version
 
 ADDSED = -e s%@VERSION_DRIVER@%$(VERSION_DRIVER)%g 
 
@@ -85,8 +85,9 @@ $(VERSION.MK.INCLUDE):
 build: $(MODULESFILES)
 
 install:: $(MODULESFILES)
-	mkdir -p $(ROOT)/$(PKGROOT)
-	install -m 644 $(MODULESFILES) $(ROOT)/$(PKGROOT)
+	mkdir -p $(ROOT)/$(PKGROOT)/$(CUDANAME)
+	install -m 644 cuda.module $(ROOT)/$(PKGROOT)/$(CUDANAME)/$(VERSION)
+	install -m 644 cuda.version $(ROOT)/$(PKGROOT)/$(CUDANAME)/.version.$(VERSION)
 
 clean::
 	rm -rf $(NAME).spec.in

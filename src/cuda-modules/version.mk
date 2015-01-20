@@ -6,5 +6,6 @@ VERSION.MK.INCLUDE = toolkit.version.mk
 
 include $(VERSION.MK.INCLUDE) 
 NAME		= cuda-module
+CUDANAME        = cuda
 RELEASE		= 0
 RPM.REQUIRES	= environment-modules
