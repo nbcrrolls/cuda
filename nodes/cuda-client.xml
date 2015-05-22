@@ -20,18 +20,12 @@
 	<package>cuda-nvidia-driver</package>
 	<package>cuda-toolkit-lib64</package>
 	<package>cuda-toolkit-base</package>
+	<package>cuda-module</package>
 	<package>mesa-libGLU</package>
 	<package>freeglut</package>
 	<package>freeglut-devel</package>
 
 <post>
-
-<file name="/etc/modprobe.d/disable-nouveau.conf" perms="644">
-# Prevent Nouveau from loading and performing a kernel modeset
-# Needed for installing CUDA drivers
-blacklist nouveau
-options nouveau modeset=0
-</file>
 
 /sbin/chkconfig --add  nvidia 
 </post>

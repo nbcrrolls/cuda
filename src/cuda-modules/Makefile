@@ -55,18 +55,14 @@
 # @Copyright@
 #
 
-PKGROOT = /opt/modulefiles/applications
 
 REDHAT.ROOT = $(CURDIR)/../../
-RPM.PREFIX = $(PKGROOT)
-
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
+PKGROOT = /opt/modulefiles/applications
 MODULESFILES = $(CUDANAME).module $(CUDANAME).version
-
 ADDSED = -e s%@VERSION_DRIVER@%$(VERSION_DRIVER)%g 
-
 
 %: %.in
 	$(SED) $(SEDSCRIPT) $(ADDSED)  $^ > $@
@@ -86,8 +82,10 @@ build: $(MODULESFILES)
 
 install:: $(MODULESFILES)
 	mkdir -p $(ROOT)/$(PKGROOT)/$(CUDANAME)
-	install -m 644 cuda.module $(ROOT)/$(PKGROOT)/$(CUDANAME)/$(VERSION)
-	install -m 644 cuda.version $(ROOT)/$(PKGROOT)/$(CUDANAME)/.version.$(VERSION)
+	$(INSTALL) -m 644 cuda.module $(ROOT)/$(PKGROOT)/$(CUDANAME)/$(VERSION)
+	$(INSTALL) -m 644 cuda.version $(ROOT)/$(PKGROOT)/$(CUDANAME)/.version.$(VERSION)
+	mkdir -p $(ROOT)/etc/modprobe.d/
+	$(INSTALL) -m 644 disable-nouveau.conf $(ROOT)/etc/modprobe.d/
 
 clean::
 	rm -rf $(NAME).spec.in
