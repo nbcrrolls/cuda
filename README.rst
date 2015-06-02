@@ -15,9 +15,13 @@ For more information about the NVIDIA CUDA Toolkit please see the official
 Requirements
 -------------
 
-To build/install this roll you need to download cuda toolkit and driver source files ``*.run``.
-from NVIDIA website and plase them in respective directories in src/.  The toolkit distro is ~1Gb. 
+To build/install this roll you need to download cuda toolkit and driver source files (``*.run`` format)
+and plase them in respective directories in src/: ::
 
+    `NVIDIA CUDA toolkit <https://developer.nvidia.com/cuda-downloads>`_  
+    `NVIDIA drivers <http://www.nvidia.com/drivers>`_
+
+The toolkit distro is ~1Gb.  
 Must have enough space (~ 1.5GB) in / when building the roll.
 
 Building
