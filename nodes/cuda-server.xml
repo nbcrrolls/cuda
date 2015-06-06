@@ -17,6 +17,7 @@
 	<changelog>
 	</changelog>
 
+	<package>cuda-module</package>
 	<package>cuda-nvidia-driver</package>
 	<package>cuda-toolkit-lib64</package>
 	<package>cuda-toolkit-base</package>
