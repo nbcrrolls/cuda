@@ -8,7 +8,7 @@ CUDA  Roll
 
 Introduction
 ---------------
-This roll installs NVIDIA CUDA Toolkit and NVIDIA Driver. 
+This roll installs NVIDIA CUDA Toolkit 7.0.28 and NVIDIA Driver v.346.59. 
 For more information about the NVIDIA CUDA Toolkit please see the official
 `NVIDIA developer website <http://developer.nvidia.com>`_
 
