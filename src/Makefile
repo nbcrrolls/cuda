@@ -1,4 +1,3 @@
-# $Id: Makefile,v 1.1 2011/10/12 21:59:48 nadya Exp $
 #
 # @Copyright@
 # 
@@ -52,10 +51,6 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # 
 # @Copyright@
-#
-# $Log: Makefile,v $
-# Revision 1.1  2011/10/12 21:59:48  nadya
-# initial, based on hg-rocks5.3 cuda roll.
 #
 
 #NPW-include $(shell ../../../../bin/arch).mk

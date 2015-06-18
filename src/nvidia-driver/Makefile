@@ -1,6 +1,4 @@
 #
-# $Id: Makefile,v 1.1 2011/10/12 21:59:58 nadya Exp $
-#
 # @Copyright@
 # 
 # 				Rocks(r)
@@ -53,11 +51,6 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # 
 # @Copyright@
-#
-# $Log: Makefile,v $
-# Revision 1.1  2011/10/12 21:59:58  nadya
-# initial, based on hg-rocks5.3 cuda roll.
-#
 #
 
 PKGROOT		= /opt/cuda/driver
