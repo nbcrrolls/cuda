@@ -31,7 +31,7 @@ To build the roll, execute : ::
 
     # make 2>&1 | tee build.log
 
-A successful build will create 2 ``cuda-*.disk*.iso`` files.
+A successful build will create  ``cuda-*.x86_64*.iso`` file.
 
 Installing
 ------------
