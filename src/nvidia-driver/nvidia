@@ -55,9 +55,9 @@ function removenodes() {
    rm -f /dev/nvidia*
 }
 
-# set GPU exclusive process access on all gpus
+# set GPU to default mode on all gpus
 function setgpuaccess() {
-   /usr/bin/nvidia-smi -c 3
+   /usr/bin/nvidia-smi -c 0
    RETVAL=$?
    [ "$RETVAL" = 0 ] || exit $RETVAL
 }
