@@ -16,10 +16,10 @@ Requirements
 -------------
 
 To build/install this roll you need to download cuda toolkit and driver source files (``*.run`` format)
-and plase them in respective directories in src/: ::
+and plase them in respective directories in src/:
 
-    `NVIDIA CUDA toolkit <https://developer.nvidia.com/cuda-downloads>`_  
-    `NVIDIA drivers <http://www.nvidia.com/drivers>`_
++ `NVIDIA CUDA toolkit <https://developer.nvidia.com/cuda-downloads>`_  
++ `NVIDIA drivers <http://www.nvidia.com/drivers>`_
 
 The toolkit distro is ~1Gb.  
 Must have enough space (~ 1.5GB) in / when building the roll.
@@ -31,7 +31,7 @@ To build the roll, execute : ::
 
     # make 2>&1 | tee build.log
 
-A successful build will create 2 ``cuda-*.disk*.iso`` files.
+A successful build will create  ``cuda-*.x86_64*.iso`` file.
 
 Installing
 ------------
