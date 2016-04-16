@@ -1,5 +1,5 @@
 NAME = cuda-toolkit
-VERSION    = 7.0.28
+VERSION    = 7.5.18
 RELEASE = 0
 
 DISTDIR = distro
