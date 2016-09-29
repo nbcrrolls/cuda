@@ -1,5 +1,11 @@
-NAME = cuda-toolkit
-VERSION    = 7.5.18
+VERSION.MK.MASTER = version.mk
+VERSION.MK.MASTER.DIR = ..
+VERSION.MK.INCLUDE = toolkit.version.mk
+
+include $(VERSION.MK.INCLUDE)
+
+NAME    = cuda-toolkit$(TOOLKIT_SHORT)
+VERSION = $(VERSION_TOOLKIT)
 RELEASE = 0
 
 DISTDIR = distro

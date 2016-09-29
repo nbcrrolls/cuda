@@ -73,10 +73,10 @@ $(VERSION.MK.INCLUDE):
 	if [ -f $(VERSION.MK.MASTER.DIR)/$(VERSION.MK.MASTER) ]; then \
 		/bin/cp $(VERSION.MK.MASTER.DIR)/$(VERSION.MK.MASTER) $@; \
 	fi
-	if [ -f $(VERSION.MK.DRIVER.DIR)/$(VERSION.MK.MASTER) ]; then \
-		/bin/grep VERSION  $(VERSION.MK.DRIVER.DIR)/$(VERSION.MK.MASTER) \
-		| sed  s%VERSION%VERSION_DRIVER% >> $@; \
-	fi
+#	if [ -f $(VERSION.MK.DRIVER.DIR)/$(VERSION.MK.MASTER) ]; then \
+#		/bin/grep VERSION  $(VERSION.MK.DRIVER.DIR)/$(VERSION.MK.MASTER) \
+#		| sed  s%VERSION%VERSION_DRIVER% >> $@; \
+#	fi
 
 build: $(MODULESFILES)
 

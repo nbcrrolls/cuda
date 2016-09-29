@@ -53,7 +53,7 @@
 # @Copyright@
 #
 
-PKGROOT	= /opt/cuda
+PKGROOT	= /opt/cuda_$(VERSION)
 SAMPLES = $(PKGROOT)/samples
 UTILS   = $(SAMPLES)/1_Utilities
 DISTDIR = distro
@@ -65,6 +65,13 @@ ARCH = `./_arch`
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
+
+pretar:: $(VERSION.MK.INCLUDE)
+
+$(VERSION.MK.INCLUDE): 
+	if [ -f $(VERSION.MK.MASTER.DIR)/$(VERSION.MK.MASTER) ]; then \
+		/bin/cp $(VERSION.MK.MASTER.DIR)/$(VERSION.MK.MASTER) $@; \
+	fi
 
 build:
 
@@ -94,4 +101,7 @@ install::
 	mkdir -p $(REDHAT.ROOT)/RPMS/$(ARCH)
 	mv $(NAME)-base-*rpm $(REDHAT.ROOT)/RPMS/$(ARCH)
 	rm -rf $(PKGROOT)
+
+clean::
+	rm -rf $(VERSION.MK.INCLUDE)
 

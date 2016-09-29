@@ -53,13 +53,24 @@
 # @Copyright@
 #
 
-PKGROOT		= /opt/cuda/driver
 REDHAT.ROOT	= $(CURDIR)/../../
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
-build:
+ADDSED = -e s%@PKGROOT@%$(PKGROOT)%g 
+
+pretar:: $(VERSION.MK.INCLUDE)
+
+$(VERSION.MK.INCLUDE): 
+	if [ -f $(VERSION.MK.MASTER.DIR)/$(VERSION.MK.MASTER) ]; then \
+		/bin/cp $(VERSION.MK.MASTER.DIR)/$(VERSION.MK.MASTER) $@; \
+	fi
+
+%: %.in
+	$(SED) $(SEDSCRIPT) $(ADDSED) $^ > $@
+
+build: nvidia
 
 install:: 
 	mkdir -p $(ROOT)/$(PKGROOT)
@@ -71,4 +82,6 @@ install::
 	( cd $(ROOT)/$(PKGROOT); ln -s $(DRIVER_INSTALLER) nvidia-devdriver.run; )
 
 clean::
+	rm -rf $(VERSION.MK.INCLUDE)
+	rm -rf nvidia
 
