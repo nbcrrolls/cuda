@@ -1,0 +1,31 @@
+<?xml version="1.0" standalone="no"?>
+
+<kickstart>
+
+	<description>
+	Install the NVIDIA driver and CUDA toolkit on gpu-enabled compute node.
+	</description>
+
+	<copyright>
+	Copyright (c) 2000 - 2014 The Regents of the University of California.
+	All rights reserved. Rocks(r) 6.2 www.rocksclusters.org
+	</copyright>
+
+	<changelog>
+	</changelog>
+
+	<package>cuda-nvidia-driver</package>
+	<package>cuda-toolkitTOOLKIT_SHORT-lib64</package>
+	<package>cuda-toolkitTOOLKIT_SHORT-base</package>
+	<package>cuda-toolkitTOOLKIT_SHORT-samples</package>
+	<package>cuda-moduleTOOLKIT_SHORT</package>
+	<package>mesa-libGLU</package>
+	<package>freeglut</package>
+	<package>freeglut-devel</package>
+
+<post>
+
+/sbin/chkconfig --add  nvidia 
+</post>
+
+</kickstart>
