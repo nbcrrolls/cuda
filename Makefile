@@ -3,8 +3,8 @@
 # @Copyright@
 # 
 # 				Rocks(r)
-# 		         www.rocksclusters.org
-# 		         version 6.2 (SideWinder)
+# 			 www.rocksclusters.org
+# 			 version 6.2 (SideWinder)
 # 
 # Copyright (c) 2000 - 2014 The Regents of the University of California.
 # All rights reserved.	
@@ -61,7 +61,31 @@
 -include $(ROLLSROOT)/etc/Rolls.mk
 include Rolls.mk
 
+include cuda.mk
+
+cuda.mk:
+	cp src/version.mk cuda.mk
+
+preroll:: cuda.mk
+	for i in `ls nodes/*.xml.in`; do \
+		export o=`echo $$i | sed 's/\.in//'`; \
+		cp $$i $$o; \
+		sed -i -e "s/TOOLKIT_SHORT/$(TOOLKIT_SHORT)/g"  $$o; \
+	done
+
+
 default: roll
 
 clean::
 	rm -rf _arch bootstrap.py
+	rm -rf cuda.mk
+
+
+cvsclean:: clean
+	for i in `ls nodes/*.in`; do \
+	    export o=`echo $$i | sed 's/\.in//'`; \
+	    rm -rf  $$o; \
+	done
+	rm -f _arch build.log
+	rm -rf RPMS SRPMS
+
