@@ -7,7 +7,7 @@
 proc ModulesHelp { } {
 	global cudaversion 
 
-	puts stderr "\tUse NVIDIA CUDA tools from /opt/cuda"
+	puts stderr "\tUse NVIDIA CUDA tools from /opt/cuda_@VERSION@"
 	puts stderr "\tNVIDIA CUDA Toolkit Version $cudaversion"
 	puts stderr "\tNVIDIA Driver Version @VERSION_DRIVER@\n"
 }
@@ -18,7 +18,7 @@ module-whatis	"NVIDIA Driver Version @VERSION_DRIVER@"
 # for Tcl script use only
 set	cudaversion @VERSION@
 
-set cudaHome /opt/cuda
+set cudaHome /opt/cuda_@VERSION@
 setenv CUDAHOME $cudaHome
 prepend-path	PATH $cudaHome/bin	
 prepend-path	LD_LIBRARY_PATH $cudaHome/lib64
