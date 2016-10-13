@@ -81,6 +81,8 @@ install::
 	/bin/bash $(TOOLKIT_DISTRO) -extract=`pwd`/$(DISTDIR)
 	/bin/bash $(DISTDIR)/cuda-linux*$(VERSION)-*.$(TOOLKIT_SUFFIX) -noprompt -nosymlink -prefix=$(PKGROOT)
 	/bin/bash $(DISTDIR)/cuda-samples*$(VERSION)-*.$(TOOLKIT_SUFFIX) -noprompt -prefix=$(SAMPLES) -cudaprefix=$(PKGROOT)
+	mkdir -p $(PKGROOT)/etc
+	cp nvidia-smi-commands $(PKGROO)/etc
 	# create samples rpm
 	rocks create package $(PKGROOT)/samples $(NAME)-samples version=$(VERSION) release=$(RELEASE)
 	mkdir -p $(REDHAT.ROOT)/RPMS/$(ARCH)
