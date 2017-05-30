@@ -98,3 +98,27 @@ Run GPU device tests : ::
     % /opt/cuda/bin/bandwidthTest 
     % /opt/cuda/bin/p2pBandwidthLatencyTest
 
+
+CUDA and SGE
+-------------
+
+SOme users reposrt increase in  virtual memory use when using CUDA. 
+See following links for additional info. 
+
+http://gridengine.org/pipermail/users/2011-December/002215.html
+
+http://devblogs.nvidia.com/parallelforall/unified-memory-in-cuda-6/
+
+http://www.drdobbs.com/parallel/unified-memory-in-cuda-6-a-brief-overvie/240169095?pgno=2
+
+https://devtalk.nvidia.com/default/topic/493902/cuda-programming-and-performance/consumption-of-host-memory-increases-abnormally/
+
+http://stackoverflow.com/questions/6445109/why-is-my-c-program-suddenly-using-30g-of-virtual-memory
+
+http://gridengine.org/pipermail/users/2014-April/007468.html
+
+Useful commands: ::
+
+    pmap -x PID
+    more /proc/PID/smaps
+
