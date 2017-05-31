@@ -111,9 +111,13 @@ See following links for additional info.
 * https://devtalk.nvidia.com/default/topic/493902/cuda-programming-and-performance/consumption-of-host-memory-increases-abnormally/
 * http://stackoverflow.com/questions/6445109/why-is-my-c-program-suddenly-using-30g-of-virtual-memory
 * http://gridengine.org/pipermail/users/2014-April/007468.html
+* https://serverfault.com/questions/322073/howto-set-up-sge-for-cuda-devices
 
 Useful commands: ::
 
     pmap -x PID
     more /proc/PID/smaps
 
+GPU monitoring plugin for gmond
+
+* https://github.com/ganglia/gmond_python_modules/tree/master/gpu/nvidia
