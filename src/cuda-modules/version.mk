@@ -10,6 +10,11 @@ VERSION.MK.INCLUDE = toolkit.version.mk
 include $(VERSION.MK.INCLUDE) 
 NAME		= cuda-module$(TOOLKIT_SHORT)
 VERSION         = $(VERSION_TOOLKIT)
-CUDANAME        = cuda
 RELEASE		= 0
+CUDANAME        = cuda
+PKGROOT 	= /usr/share/Modules/modulefiles
+MODULE_DEST	= $(PKGROOT)
 RPM.REQUIRES	= environment-modules
+RPM.FILES = \
+/etc/modprobe.d/* \n \
+$(MODULE_DEST)/cuda

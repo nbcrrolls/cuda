@@ -82,9 +82,9 @@ install::
 	/bin/bash $(DISTDIR)/cuda-linux*$(VERSION)-*.$(TOOLKIT_SUFFIX) -noprompt -nosymlink -prefix=$(PKGROOT)
 	/bin/bash $(DISTDIR)/cuda-samples*$(VERSION)-*.$(TOOLKIT_SUFFIX) -noprompt -prefix=$(SAMPLES) -cudaprefix=$(PKGROOT)
 	mkdir -p $(PKGROOT)/etc
-	cp nvidia-smi-commands $(PKGROO)/etc
+	cp nvidia-smi-commands $(PKGROOT)/etc
 	# create samples rpm
-	rocks create package $(PKGROOT)/samples $(NAME)-samples version=$(VERSION) release=$(RELEASE)
+	rocks create package $(PKGROOT)/samples $(NAME)-samples version=$(VERSION) release=$(RELEASE) append-version-mk=$(CURDIR)/toolkit-samples-$(VERSION).files
 	mkdir -p $(REDHAT.ROOT)/RPMS/$(ARCH)
 	mv $(NAME)-samples-*rpm $(REDHAT.ROOT)/RPMS/$(ARCH)
 	# compile and install utilities binaries in samples
@@ -94,12 +94,12 @@ install::
 	(cd $(UTILS)/p2pBandwidthLatencyTest; make; cp p2pBandwidthLatencyTest $(PKGROOT)/bin )
 	rm -rf $(PKGROOT)/samples
 	# create lib64 rpm
-	rocks create package $(PKGROOT)/lib64 $(NAME)-lib64 version=$(VERSION) release=$(RELEASE)
+	rocks create package $(PKGROOT)/lib64 $(NAME)-lib64 version=$(VERSION) release=$(RELEASE) append-version-mk=$(CURDIR)/toolkit-lib64-$(VERSION).files
 	mkdir -p $(REDHAT.ROOT)/RPMS/$(ARCH)
 	mv $(NAME)-lib64-*rpm $(REDHAT.ROOT)/RPMS/$(ARCH)
 	rm -rf $(PKGROOT)/lib64
 	# create remainder of tollkit rpm
-	rocks create package $(PKGROOT) $(NAME)-base version=$(VERSION) release=$(RELEASE)
+	rocks create package $(PKGROOT) $(NAME)-base version=$(VERSION) release=$(RELEASE) append-version-mk=$(CURDIR)/toolkit-base-$(VERSION).files
 	mkdir -p $(REDHAT.ROOT)/RPMS/$(ARCH)
 	mv $(NAME)-base-*rpm $(REDHAT.ROOT)/RPMS/$(ARCH)
 	rm -rf $(PKGROOT)
