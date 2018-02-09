@@ -63,10 +63,13 @@ The compute nodes can be also updated with cuda roll without a rebuild. After
 a cuda roll is intaleld on the frontend, execute on each compute node: ::
 
     # yum clean all
-    # yum install cuda-nvidia-driver cuda-toolkit75-lib64 cuda-toolkit75-base cuda-toolkit75-samples cuda-module75 mesa-libGLU
+    # yum install cuda-nvidia-driver 
+    # yum install cuda-toolkitXY-lib64 cuda-toolkitXY-base cuda-moduleXY 
+    # yum install mesa-libGLU
+    # /sbin/chkconfig --add  nvidia 
     # reboot
 
-where the version on cuda-* RPMs is the version of cuda toolkit that was build. 
+where XY in RPM name is the version of cuda toolkit that was build. 
 
 What is installed 
 -----------------
@@ -75,7 +78,7 @@ The following is installed with cuda roll: ::
 
     /opt/cuda/driver - NVIDIA driver
     /etc/init.d/nvidia  - nvidia startup/shutdown script (disabled on login/frontend node)
-    /opt/cuda   - toolkit (without samples on compute nodes)
+    /opt/cuda   - toolkit 
 
 Dependencies RPMS (needed for some cuda sample cuda toolkit applications): freeglut, freeglut-devel, mesa-libGLU
 On login/frontend nodes: ::
