@@ -44,27 +44,30 @@ To add this roll to existing cluster, execute these instructions on a Rocks fron
     # rocks create distro
     # rocks run roll cuda > add-roll.sh
 
-And on login node execute resulting add-roll.sh: ::
+And on login/frontend node execute resulting add-roll.sh: ::
 
     # bash add-roll.sh 2>&1 | tee  add-roll.out
+    
+Set attribute on GPU-enabled compute nodes: ::   
+
+    # rocks set host attr compute-X-Y cuda true
 
 Reinstall compute nodes (only GPU-enabled):  ::
     
-    # rocks set host attr compute-X-Y cuda true
     # rocks set host boot compute-X-Y action=install
     # rocks run host compute-X-Y reboot
 
 After the compute node comes up reboot it again to initiate the
-driver installation and loading.
+driver installation and loading. 
 
-In addition to the software, the roll installs cuda environment
-module files in: ::
+The compute nodes can be also updated with cuda roll without a rebuild. After 
+a cuda roll is intaleld on the frontend, execute on each compute node: ::
 
-    /opt/modulefiles/applications/cuda
+    # yum clean all
+    # yum install cuda-nvidia-driver cuda-toolkit75-lib64 cuda-toolkit75-base cuda-toolkit75-samples cuda-module75 mesa-libGLU
+    # reboot
 
-To use the modules: ::
-
-    % module load cuda
+where the version on cuda-* RPMs is the version of cuda toolkit that was build. 
 
 What is installed 
 -----------------
@@ -72,14 +75,24 @@ What is installed
 The following is installed with cuda roll: ::
 
     /opt/cuda/driver - NVIDIA driver
-    /etc/init.d/nvidia  - nvidia startup/shutdown script (disabled on login node)
+    /etc/init.d/nvidia  - nvidia startup/shutdown script (disabled on login/frontend node)
     /opt/cuda   - toolkit (without samples on compute nodes)
-    /opt/modules/applications/cuda - module environment
 
-On login nodes: ::
+Dependencies RPMS (needed for some cuda sample cuda toolkit applications): freeglut, freeglut-devel, mesa-libGLU
+On login/frontend nodes: ::
 
     /opt/cuda/samples  - code samples
     /var/www/html/cuda - link to cuda html documentation
+
+In addition to the software, the roll installs cuda environment
+module files in: ::
+
+    /opt/modulefiles/applications/cuda  (for CentOS 6)
+    /usr/share/Modules/modulefiles  (for CentOS 7)   
+
+Modules set all needed environmetn for using cuda  toolkit. To use the modules: ::
+
+    % module load cuda 
 
 
 Testing
