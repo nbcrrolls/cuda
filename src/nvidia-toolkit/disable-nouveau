@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# save original grub configuration
+mkdir /root/save
+cp /boot/grub2/grub.cfg /root/save/
+cp /etc/default/grub /root/save
+
+# generate new grub configuration with nouveau disabled
+sed  -i '/GRUB_CMDLINE_LINUX=/s/"/ rd.driver.blacklist=nouveau nouveau.modeset=0"/2' /etc/default/grub
+grub2-mkconfig -o /boot/grub2/grub.cfg
+
+# back up orig iniramfs and generate new
+mv /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r)-nouveau.img
+dracut /boot/initramfs-$(uname -r).img $(uname -r)
+
+# After running this script reboot 
+echo "NOTE: reboot your host for changes to take effect"
+
