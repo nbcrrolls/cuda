@@ -1,2 +1,0 @@
-RPM.FILES = /opt/cuda_7.5.18/lib64/*
-
