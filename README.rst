@@ -7,24 +7,33 @@ CUDA  Roll
 
 Introduction
 ---------------
-This roll installs NVIDIA CUDA Toolkit 7.0.28 and NVIDIA Driver v.346.59. 
+This roll installs NVIDIA CUDA Toolkit and NVIDIA Driver.
+Versions of toolkit and driver are in ``src/version.mk`` file.
 For more information about the NVIDIA CUDA Toolkit please see the official
 `NVIDIA developer website <http://developer.nvidia.com>`_
 
 Requirements
 -------------
 
-To build/install this roll you need to download cuda toolkit and driver source files (``*.run`` format)
-and plase them in respective directories in src/:
+To build/install this roll for different toolkit/driver version you need to download CUDA toolkit 
+and driver source files (``*.run`` format)  from : 
 
 + `NVIDIA CUDA toolkit <https://developer.nvidia.com/cuda-downloads>`_  
 + `NVIDIA drivers <http://www.nvidia.com/drivers>`_
+
+and plase them in respective directories in ``src/nvidia-driver``
+and ``src/nvidia-toolkit``. Update ``src/version.mk`` file with new version numbers.
+
 
 The toolkit distro is ~1Gb.  
 Must have enough space (~ 1.5GB) in / when building the roll.
 
 Building
 -------------
+
+To download the distribution sources  (form google drive) execute ::
+
+    # ./bootstrap.sh
 
 To build the roll, execute : ::
 
@@ -39,58 +48,69 @@ To add this roll to existing cluster, execute these instructions on a Rocks fron
 
     # rocks add roll *.iso
     # rocks enable roll cuda
-    # cd /export/rocks/install
-    # rocks create distro
+    # (cd /export/rocks/install;  rocks create distro)
     # rocks run roll cuda > add-roll.sh
 
 And on login/frontend node execute resulting add-roll.sh: ::
 
     # bash add-roll.sh 2>&1 | tee  add-roll.out
     
-Set attribute on GPU-enabled compute nodes: ::   
+To install on GPU-enabled compute nodes (similar instructions for GPU-enabled vm-ontainers nodes)
+Set node attribute : ::   
 
     # rocks set host attr compute-X-Y cuda true
+
+On each GPU node disable nouveau driver and create new grub configuration and build a new initramfs ::
+
+    # /opt/cuda_8.0.61/bin/disable-nouveau
 
 Reinstall compute nodes (only GPU-enabled):  ::
     
     # rocks set host boot compute-X-Y action=install
     # rocks run host compute-X-Y reboot
 
-After the compute node comes up reboot it again to initiate the
-driver installation and loading. 
-
 The compute nodes can be also updated with cuda roll without a rebuild. After 
 a cuda roll is intaleld on the frontend, execute on each compute node: ::
 
     # yum clean all
-    # yum install cuda-nvidia-driver 
-    # yum install cuda-toolkitXY-lib64 cuda-toolkitXY-base cuda-moduleXY 
-    # yum install mesa-libGLU
+    # yum install cuda-nvidia-driver cuda-toolkitXY cuda-toolkitXY-lib64 cuda-toolkitXY-base cuda-moduleXY 
+    # yum install freeglut-devel
     # /sbin/chkconfig --add  nvidia 
+    # /opt/cuda_8.0.61/bin/disable-nouveau
     # reboot
 
-where XY in RPM name is the version of cuda toolkit that was build. 
+where XY is the short hand notation of  the cuda toolkit version.
 
 What is installed 
 -----------------
 
 The following is installed with cuda roll: ::
 
-    /opt/cuda/driver - NVIDIA driver
-    /etc/init.d/nvidia  - nvidia startup/shutdown script (disabled on login/frontend node)
-    /opt/cuda   - toolkit 
+    /opt/cuda/driver/ - NVIDIA driver
+    /etc/rc.d/init.d/nvidia  - nvidia startup/shutdown script (disabled on login/frontend node)
+    /etc/modprobe.d/disable-nouveau.conf - blacklist nouveau  configuraion file 
+    /opt/cuda_XY/  - CUDA toolkit 
+    /opt/cuda_XY/etc/nvidia-smi-commands - example list of nvidia-smi commands 
+    /opt/cuda_8.0.61/bin/disable-nouveau - script to permanently disable nouveau driver
 
-Dependencies RPMS (needed for some cuda sample cuda toolkit applications): freeglut, freeglut-devel, mesa-libGLU
+where XY is the short hand notation of  the cuda toolkit version.
+Dependencies RPMS (needed for some cuda sample and cuda toolkit applications) installed :  ::
+
+    freeglut
+    freeglut-devel
+    mesa-libGLU
+
 On login/frontend nodes: ::
 
-    /opt/cuda/samples  - code samples
-    /var/www/html/cuda - link to cuda html documentation
+    /opt/cuda_XY/samples  - CUDA toolkit samples
+    /opt/cuda_XY/doc  - CUDA toolkit documentation
+    /var/www/html/cuda - link to cuda html documentation, will be availble via http://your.host.fqdn/cuda
 
 In addition to the software, the roll installs cuda environment
 module files in: ::
 
-    /opt/modulefiles/applications/cuda  (for CentOS 6)
     /usr/share/Modules/modulefiles  (for CentOS 7)   
+    /opt/modulefiles/applications/cuda  (for CentOS 6)
 
 Modules set all needed environmetn for using cuda  toolkit. To use the modules: ::
 
@@ -108,11 +128,10 @@ To find information about installed GPU card execute: ::
 
 Run GPU device tests : ::
 
-    % /opt/cuda/bin/deviceQuery
-    % /opt/cuda/bin/deviceQueryDrv
-    % /opt/cuda/bin/bandwidthTest 
-    % /opt/cuda/bin/p2pBandwidthLatencyTest
-
+    % /opt/cuda_XY/bin/deviceQuery
+    % /opt/cuda_XY/bin/deviceQueryDrv
+    % /opt/cuda_XY/bin/bandwidthTest 
+    % /opt/cuda_XY/bin/p2pBandwidthLatencyTest
 
 CUDA and SGE
 -------------
