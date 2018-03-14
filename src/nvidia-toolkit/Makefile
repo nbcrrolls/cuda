@@ -103,7 +103,7 @@ install::
 	(cd $(UTILS)/p2pBandwidthLatencyTest; make; cp p2pBandwidthLatencyTest $(PKGROOT)/bin )
 
 	# create samples rpm
-	rocks create package $(PKGROOT)/samples $(NAME)-samples version=$(VERSION) release=$(RELEASE) append-version-mk=$(CURDIR)/$(FILES.RPMBASE)
+	rocks create package $(PKGROOT)/samples $(NAME)-samples version=$(VERSION) release=$(RELEASE) append-version-mk=$(CURDIR)/$(FILES.RPMSAMPLES)
 	mkdir -p $(REDHAT.ROOT)/RPMS/$(ARCH)
 	mv $(NAME)-samples-*rpm $(REDHAT.ROOT)/RPMS/$(ARCH)
 	rm -rf $(PKGROOT)/samples
@@ -115,7 +115,7 @@ install::
 	rm -rf $(PKGROOT)/lib64
 
 	# create remainder of tollkit rpm
-	rocks create package $(PKGROOT) $(NAME)-base version=$(VERSION) release=$(RELEASE) append-version-mk=$(CURDIR)/$(FILES.RPMSAMPLES)
+	rocks create package $(PKGROOT) $(NAME)-base version=$(VERSION) release=$(RELEASE) append-version-mk=$(CURDIR)/$(FILES.RPMBASE)
 	mkdir -p $(REDHAT.ROOT)/RPMS/$(ARCH)
 	mv $(NAME)-base-*rpm $(REDHAT.ROOT)/RPMS/$(ARCH)
 
