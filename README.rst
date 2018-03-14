@@ -62,7 +62,7 @@ Set node attribute : ::
 
 On each GPU node disable nouveau driver and create new grub configuration and build a new initramfs ::
 
-    # /opt/cuda_8.0.61/bin/disable-nouveau
+    # /opt/cuda_XY/bin/disable-nouveau
 
 Reinstall compute nodes (only GPU-enabled):  ::
     
@@ -76,7 +76,7 @@ a cuda roll is intaleld on the frontend, execute on each compute node: ::
     # yum install cuda-nvidia-driver cuda-toolkitXY cuda-toolkitXY-lib64 cuda-toolkitXY-base cuda-moduleXY 
     # yum install freeglut-devel
     # /sbin/chkconfig --add  nvidia 
-    # /opt/cuda_8.0.61/bin/disable-nouveau
+    # /opt/cuda_XY/bin/disable-nouveau
     # reboot
 
 where XY is the short hand notation of  the cuda toolkit version.
@@ -91,7 +91,7 @@ The following is installed with cuda roll: ::
     /etc/modprobe.d/disable-nouveau.conf - blacklist nouveau  configuraion file 
     /opt/cuda_XY/  - CUDA toolkit 
     /opt/cuda_XY/etc/nvidia-smi-commands - example list of nvidia-smi commands 
-    /opt/cuda_8.0.61/bin/disable-nouveau - script to permanently disable nouveau driver
+    /opt/cuda_XY/bin/disable-nouveau - script to permanently disable nouveau driver
 
 where XY is the short hand notation of  the cuda toolkit version.
 Dependencies RPMS (needed for some cuda sample and cuda toolkit applications) installed :  ::
