@@ -21,5 +21,5 @@ rocks-*.mk
 roll-cuda.*
 
 # ignore large src files
-src/nvidia-toolkit/cuda*.run
-src/nvidia-driver/NVIDIA*.run
+src/nvidia-toolkit/cuda*run
+src/nvidia-driver/NVIDIA*run

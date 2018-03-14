@@ -17,11 +17,9 @@
         <package>cuda-toolkitTOOLKIT_SHORT-lib64</package>
         <package>cuda-toolkitTOOLKIT_SHORT-base</package>
         <package>cuda-toolkitTOOLKIT_SHORT-samples</package>
+        <package>cuda-toolkitTOOLKIT_SHORT</package>
         <package>cuda-moduleTOOLKIT_SHORT</package>
 	<package>cuda-nvidia-driver</package>
-	<package>cuda-toolkit-lib64</package>
-	<package>mesa-libGLU</package>
-	<package>freeglut</package>
 	<package>freeglut-devel</package>
 
 <post>

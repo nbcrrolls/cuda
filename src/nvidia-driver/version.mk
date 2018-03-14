@@ -12,4 +12,4 @@ DRIVER_INSTALLER = NVIDIA-Linux-x86_64-$(VERSION).run
 
 RPM.FILES = \
 /etc/rc.d/init.d/* \n \
-/opt/cuda
+/opt/cuda/driver

@@ -66,7 +66,16 @@ ARCH = `./_arch`
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
-pretar:: $(VERSION.MK.INCLUDE)
+pretar:: $(VERSION.MK.INCLUDE) $(FILES.RPMBASE) $(FILES.RPMLIB) $(FILES.RPMSAMPLES)
+
+$(FILES.RPMBASE):
+	echo "RPM.FILES = $(PKGROOT)/*" > $@;
+
+$(FILES.RPMLIB):
+	echo "RPM.FILES = $(PKGROOT)/lib64" > $@;
+
+$(FILES.RPMSAMPLES):
+	echo "RPM.FILES = $(PKGROOT)/samples" > $@;
 
 $(VERSION.MK.INCLUDE): 
 	if [ -f $(VERSION.MK.MASTER.DIR)/$(VERSION.MK.MASTER) ]; then \
@@ -76,34 +85,48 @@ $(VERSION.MK.INCLUDE):
 build:
 
 install:: 
-	# install toolkit and samples in /opt 
+	# from nvidia distro install toolkit and samples in /opt 
 	mkdir -p $(DISTDIR)
 	/bin/bash $(TOOLKIT_DISTRO) -extract=`pwd`/$(DISTDIR)
 	/bin/bash $(DISTDIR)/cuda-linux*$(VERSION)-*.$(TOOLKIT_SUFFIX) -noprompt -nosymlink -prefix=$(PKGROOT)
 	/bin/bash $(DISTDIR)/cuda-samples*$(VERSION)-*.$(TOOLKIT_SUFFIX) -noprompt -prefix=$(SAMPLES) -cudaprefix=$(PKGROOT)
-	mkdir -p $(PKGROOT)/etc
-	cp nvidia-smi-commands $(PKGROOT)/etc
-	# create samples rpm
-	rocks create package $(PKGROOT)/samples $(NAME)-samples version=$(VERSION) release=$(RELEASE) append-version-mk=$(CURDIR)/toolkit-samples-$(VERSION).files
-	mkdir -p $(REDHAT.ROOT)/RPMS/$(ARCH)
-	mv $(NAME)-samples-*rpm $(REDHAT.ROOT)/RPMS/$(ARCH)
-	# compile and install utilities binaries in samples
+
+	# apply patch, may not be needed with other versions
+	if [ -f $(TOOLKIT_PATCH) ]; then \
+		/bin/bash $(TOOLKIT_PATCH) --installdir=$(PKGROOT) --accept-eula --silent; \
+	fi
+
+	# compile and install utilities binaries from samples
 	(cd $(UTILS)/bandwidthTest; make; cp bandwidthTest $(PKGROOT)/bin )
 	(cd $(UTILS)/deviceQuery; make; cp deviceQuery $(PKGROOT)/bin )
 	(cd $(UTILS)/deviceQueryDrv; make; cp deviceQueryDrv $(PKGROOT)/bin )
 	(cd $(UTILS)/p2pBandwidthLatencyTest; make; cp p2pBandwidthLatencyTest $(PKGROOT)/bin )
+
+	# create samples rpm
+	rocks create package $(PKGROOT)/samples $(NAME)-samples version=$(VERSION) release=$(RELEASE) append-version-mk=$(CURDIR)/$(FILES.RPMBASE)
+	mkdir -p $(REDHAT.ROOT)/RPMS/$(ARCH)
+	mv $(NAME)-samples-*rpm $(REDHAT.ROOT)/RPMS/$(ARCH)
 	rm -rf $(PKGROOT)/samples
+
 	# create lib64 rpm
-	rocks create package $(PKGROOT)/lib64 $(NAME)-lib64 version=$(VERSION) release=$(RELEASE) append-version-mk=$(CURDIR)/toolkit-lib64-$(VERSION).files
+	rocks create package $(PKGROOT)/lib64 $(NAME)-lib64 version=$(VERSION) release=$(RELEASE) append-version-mk=$(CURDIR)/$(FILES.RPMLIB)
 	mkdir -p $(REDHAT.ROOT)/RPMS/$(ARCH)
 	mv $(NAME)-lib64-*rpm $(REDHAT.ROOT)/RPMS/$(ARCH)
 	rm -rf $(PKGROOT)/lib64
+
 	# create remainder of tollkit rpm
-	rocks create package $(PKGROOT) $(NAME)-base version=$(VERSION) release=$(RELEASE) append-version-mk=$(CURDIR)/toolkit-base-$(VERSION).files
+	rocks create package $(PKGROOT) $(NAME)-base version=$(VERSION) release=$(RELEASE) append-version-mk=$(CURDIR)/$(FILES.RPMSAMPLES)
 	mkdir -p $(REDHAT.ROOT)/RPMS/$(ARCH)
 	mv $(NAME)-base-*rpm $(REDHAT.ROOT)/RPMS/$(ARCH)
-	rm -rf $(PKGROOT)
+
+	# install example commands 
+	mkdir -p $(ROOT)/$(PKGROOT)/etc
+	$(INSTALL)  nvidia-smi-commands $(ROOT)/$(PKGROOT)/etc
+	mkdir -p $(ROOT)/$(PKGROOT)/bin
+	$(INSTALL) -m 0755 disable-nouveau $(ROOT)/$(PKGROOT)/bin
+
 
 clean::
 	rm -rf $(VERSION.MK.INCLUDE)
+	rm -rf $(FILES.RPMBASE) $(FILES.RPMLIB) $(FILES.RPMSAMPLES)
 
