@@ -1,6 +1,5 @@
-# Get the Openmpi version from it's version.mk file. See Makefile
-VERSION.MK.MASTER = version.mk
-VERSION.MK.MASTER.DIR = ..
+VERSION.MK.MASTER = cuda.mk
+VERSION.MK.MASTER.DIR = ../..
 VERSION.MK.INCLUDE = toolkit.version.mk
 
 #VERSION.MK.MASTER.DIR = ../nvidia-toolkit

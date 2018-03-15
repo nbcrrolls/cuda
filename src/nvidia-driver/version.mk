@@ -1,5 +1,5 @@
-VERSION.MK.MASTER = version.mk
-VERSION.MK.MASTER.DIR = ..
+VERSION.MK.MASTER = cuda.mk
+VERSION.MK.MASTER.DIR = ../..
 VERSION.MK.INCLUDE = toolkit.version.mk
 
 include $(VERSION.MK.INCLUDE)

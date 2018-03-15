@@ -63,10 +63,7 @@ include Rolls.mk
 
 include cuda.mk
 
-cuda.mk:
-	cp src/version.mk cuda.mk
-
-preroll:: cuda.mk
+preroll:: 
 	for i in `ls nodes/*.xml.in`; do \
 		export o=`echo $$i | sed 's/\.in//'`; \
 		cp $$i $$o; \
@@ -78,7 +75,6 @@ default: roll
 
 clean::
 	rm -rf _arch bootstrap.py
-	rm -rf cuda.mk
 
 
 cvsclean:: clean
