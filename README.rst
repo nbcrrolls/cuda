@@ -8,7 +8,8 @@ CUDA  Roll
 Introduction
 ---------------
 This roll installs NVIDIA CUDA Toolkit and NVIDIA Driver.
-Versions of toolkit and driver are in ``src/version.mk`` file.
+Versions of toolkit and driver are specified in ``cuda.mk`` file.
+To build with differnt version see section Requirements below.
 For more information about the NVIDIA CUDA Toolkit please see the official
 `NVIDIA developer website <http://developer.nvidia.com>`_
 
@@ -22,8 +23,7 @@ and driver source files (``*.run`` format)  from :
 + `NVIDIA drivers <http://www.nvidia.com/drivers>`_
 
 and plase them in respective directories in ``src/nvidia-driver``
-and ``src/nvidia-toolkit``. Update ``src/version.mk`` file with new version numbers.
-
+and ``src/nvidia-toolkit``. Update ``cuda.mk`` file with new version numbers.
 
 The toolkit distro is ~1Gb.  
 Must have enough space (~ 1.5GB) in / when building the roll.
