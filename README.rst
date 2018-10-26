@@ -17,13 +17,18 @@ Requirements
 -------------
 
 To build/install this roll for different toolkit/driver version you need to download CUDA toolkit 
-and driver source files (``*.run`` format)  from : 
+and driver source files (``*run`` format)  from : 
 
 + `NVIDIA CUDA toolkit <https://developer.nvidia.com/cuda-downloads>`_  
 + `NVIDIA drivers <http://www.nvidia.com/drivers>`_
 
 and plase them in respective directories in ``src/nvidia-driver``
 and ``src/nvidia-toolkit``. Update ``cuda.mk`` file with new version numbers.
+
+NVIDIA changes the naming schema with each major version update. 
+Dpending on your downloaded toolkit and dirver verisons  you may need to update 
+the variables (that refer to the downloaded toolkit and driver source files) in 
+``src/nvidia-toolkit/version.mk`` and /src/nvidia-driver/version.mk``.
 
 The toolkit distro is ~1Gb.  
 Must have enough space (~ 1.5GB) in / when building the roll.
