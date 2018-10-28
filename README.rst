@@ -26,7 +26,7 @@ and plase them in respective directories in ``src/nvidia-driver``
 and ``src/nvidia-toolkit``. Update ``cuda.mk`` file with new version numbers.
 
 NVIDIA changes the naming schema with each major version update. 
-Dpending on your downloaded toolkit and dirver verisons  you may need to update 
+Depending on your downloaded toolkit and driver verisons you may need to update 
 the variables (that refer to the downloaded toolkit and driver source files) in 
 ``src/nvidia-toolkit/version.mk`` and /src/nvidia-driver/version.mk``.
 
@@ -36,7 +36,9 @@ Must have enough space (~ 1.5GB) in / when building the roll.
 Building
 -------------
 
-To download the distribution sources  (form google drive) execute ::
+Note: a persistent issue with /opt/rocks/share/devel/etc/Rules.mk requires that the build be performed in a directory nested twice down from '/' (for example, git clone into /root/build rather than /root)
+
+To download the distribution sources  (from google drive) execute ::
 
     # ./bootstrap.sh
 
@@ -45,6 +47,7 @@ To build the roll, execute : ::
     # make 2>&1 | tee build.log
 
 A successful build will create  ``cuda-*.x86_64*.iso`` file.
+
 
 Installing
 ------------
@@ -84,7 +87,7 @@ a cuda roll is intaleld on the frontend, execute on each compute node: ::
     # /opt/cuda_XY/bin/disable-nouveau
     # reboot
 
-where XY is the short hand notation of  the cuda toolkit version.
+where XY is the short hand notation of the cuda toolkit version.
 
 What is installed 
 -----------------
@@ -98,7 +101,7 @@ The following is installed with cuda roll: ::
     /opt/cuda_XY/etc/nvidia-smi-commands - example list of nvidia-smi commands 
     /opt/cuda_XY/bin/disable-nouveau - script to permanently disable nouveau driver
 
-where XY is the short hand notation of  the cuda toolkit version.
+where XY is the short hand notation of the cuda toolkit version.
 Dependencies RPMS (needed for some cuda sample and cuda toolkit applications) installed :  ::
 
     freeglut
@@ -117,7 +120,7 @@ module files in: ::
     /usr/share/Modules/modulefiles  (for CentOS 7)   
     /opt/modulefiles/applications/cuda  (for CentOS 6)
 
-Modules set all needed environmetn for using cuda  toolkit. To use the modules: ::
+Modules set all needed environment for using cuda  toolkit. To use the modules: ::
 
     % module load cuda 
 
