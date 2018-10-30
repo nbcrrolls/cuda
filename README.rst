@@ -16,35 +16,57 @@ For more information about the NVIDIA CUDA Toolkit please see the official
 Requirements
 -------------
 
-To build/install this roll for different toolkit/driver version you need to download CUDA toolkit 
-and driver source files (``*run`` format)  from : 
-
-+ `NVIDIA CUDA toolkit <https://developer.nvidia.com/cuda-downloads>`_  
-+ `NVIDIA drivers <http://www.nvidia.com/drivers>`_
-
-and plase them in respective directories in ``src/nvidia-driver``
-and ``src/nvidia-toolkit``. Update ``cuda.mk`` file with new version numbers.
-
-NVIDIA changes the naming schema with each major version update. 
-Dpending on your downloaded toolkit and dirver verisons  you may need to update 
-the variables (that refer to the downloaded toolkit and driver source files) in 
-``src/nvidia-toolkit/version.mk`` and /src/nvidia-driver/version.mk``.
-
 The toolkit distro is ~1Gb.  
 Must have enough space (~ 1.5GB) in / when building the roll.
 
 Building
 -------------
 
-To download the distribution sources  (form google drive) execute ::
+Download the roll source from the git repository. A default  location  to build rolls 
+on rocks cluster is ``/export/site-roll/rocks/src/`` ::
 
+    # cd /export/site-roll/rocks/src/
+    # git clone https://github.com/nbcrrolls/cuda
+    # cd cuda
     # ./bootstrap.sh
+ 
+The last command downloads cuda toolkit and driver sources from the google drive. The versions are
+defined in cuda.mk file. If you want to build the roll using different verisons of the toolkiit and the driver
+please see a section ``Building a different verson`` below.
 
 To build the roll, execute : ::
 
     # make 2>&1 | tee build.log
 
 A successful build will create  ``cuda-*.x86_64*.iso`` file.
+
+
+Building a different version
+-----------------------------
+
+To use different versions of the toolkit and the driver, instead of  executing ``./bootstrap.sh``
+download the desired CUDA toolkit and driver source files (``*run`` format)  from : 
+
++ `NVIDIA CUDA toolkit <https://developer.nvidia.com/cuda-downloads>`_  
++ `NVIDIA drivers <http://www.nvidia.com/drivers>`_
+
+and place them in respective directories in ``src/nvidia-driver``
+and ``src/nvidia-toolkit``. Update ``cuda.mk`` file with new version numbers.
+
+NVIDIA changes the naming schema  for the toolkit and driver files with each major version update. 
+Depending on your downloaded toolkit and driver versions,  you may need to update 
+the variables (that refer to the downloaded toolkit and driver source files) in 
+``src/nvidia-toolkit/version.mk`` and /src/nvidia-driver/version.mk`` and then verify a build process
+just for RPMs: ::
+
+    # cd src/nvidia-toolkit; make rpm
+    # cd src/nvidia-driver; make rpm
+    
+Both commands should result in building the corresponding RPM after which one can build the roll.
+To build the roll, execute  form the top repo directory (cuda) : ::
+
+    # make 2>&1 | tee build.log    
+
 
 Installing
 ------------
@@ -84,7 +106,7 @@ a cuda roll is intaleld on the frontend, execute on each compute node: ::
     # /opt/cuda_XY/bin/disable-nouveau
     # reboot
 
-where XY is the short hand notation of  the cuda toolkit version.
+where XY is the short hand notation of the cuda toolkit version.
 
 What is installed 
 -----------------
@@ -98,7 +120,7 @@ The following is installed with cuda roll: ::
     /opt/cuda_XY/etc/nvidia-smi-commands - example list of nvidia-smi commands 
     /opt/cuda_XY/bin/disable-nouveau - script to permanently disable nouveau driver
 
-where XY is the short hand notation of  the cuda toolkit version.
+where XY is the short hand notation of the cuda toolkit version.
 Dependencies RPMS (needed for some cuda sample and cuda toolkit applications) installed :  ::
 
     freeglut
@@ -117,7 +139,7 @@ module files in: ::
     /usr/share/Modules/modulefiles  (for CentOS 7)   
     /opt/modulefiles/applications/cuda  (for CentOS 6)
 
-Modules set all needed environmetn for using cuda  toolkit. To use the modules: ::
+Modules set all needed environment for using cuda  toolkit. To use the modules: ::
 
     % module load cuda 
 
